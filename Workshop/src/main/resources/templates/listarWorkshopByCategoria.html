@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html"></meta>
+<title>Workshop</title>
+</head>
+<body>
+<h1>Lista de workshops por categoria</h1>
+
+	<div>
+	<form action="#" th:action="@{/listarWorkshopByCategoria}" th:object="${categoria}" method="post">
+		 <label for="nombre">Elija una categoría</label>
+		 <select id="nombre" name="nombre" th:field="*{id}" >    	
+         <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}" ></option>        
+    	</select>    	
+    	 <input type="submit" value="Buscar por categoria">  
+	</form>  	
+    	
+	</div>
+	<div th:switch="${workshops}">
+	<h2 th:case="null">No existen workshops registrados</h2>
+	<div th:case="*">
+		<h2>Workshops</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Autor</th>
+					<th>Objetivo</th>
+					<th>Palabras claves</th>
+					<th>Categoria</th>
+					<th>Duración minutos</th>
+					<th>Actividades</th>
+					<th>Agregar actividad</th>
+					<th>Modificar workshop</th>
+					<th>Generar word</th>						
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="workshop : ${workshops}">
+					<td th:text="${workshop.nombre}"></td>
+					<td th:text="${workshop.autor}"></td>	
+					<td th:text="${workshop.objetivo}"></td>	
+					<td th:text="${workshop.palabrasClave}"></td>
+					<td th:text="${workshop.categoria.nombre}"></td>
+					<td th:text="${workshop.tiempoDuracion}"></td>
+					<td>
+						<ul th:each="act: ${workshop.actividades}">
+							<li><span th:text="${act.nombre}"></span> <br>
+								<span th:text="${act.descripcion}"></span> <br>
+								<span th:text="${act.texto}"></span> <br>
+								<span th:text="${act.tiempoDuracion}"></span>
+							</li>
+						</ul>
+					</td>													
+					 <td> <a th:href="@{/insertarActividad/{id}(id=${workshop.id})}">Agregar</a></td>
+					  <td> <a th:href="@{/modificarWorkshop/{id}(id=${workshop.id})}">Modificar</a></td>
+					  <td> <a th:href="@{/generarWord/{id}(id=${workshop.id})}">Generar</a></td>
+				</tr>
+			</tbody>
+		</table>
+		 <a href="/">Regresar</a>  
+		 
+	</div>	
+		
+	</div>
+</body>
+</html>

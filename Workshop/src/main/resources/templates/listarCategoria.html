@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html"></meta>
+<title>Categorias</title>
+</head>
+<body>
+<h1>Lista de categorías</h1>
+	<div th:switch="${categorias}">
+	<h2 th:case="null">No existen categorías registradas</h2>
+	<div th:case="*">
+		<h2>Categorías</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Modificar</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="categoria : ${categorias}">
+					<td th:text="${categoria.nombre}"></td>
+					<td><a th:href="@{/modificarCategoria/{id}(id=${categoria.id})}">Modificar</a></td>
+					<td><a th:href="@{/eliminarCategoria/{id}(id=${categoria.id})}">Eliminar</a></td>
+				</tr>
+			</tbody>
+		</table>
+		 <a href="/">Regresar</a>  
+	</div>	
+		
+	</div>
+</body>
+</html>

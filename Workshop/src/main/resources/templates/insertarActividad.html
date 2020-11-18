@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html"></meta>
+<title>Anthologies</title>
+</head>
+<body>
+<h2>Insertar actividad para workshop:</h2>
+<span th:text="${workshop.id}"></span>
+<form action="#" th:action="@{/insertarActividad/{id}(id=${workshop.id})}" th:object="${actividad}" method="post">
+    <label for="nombre">Nombre</label>
+    <input type="text" th:field="*{nombre}" id="nombre">
+    
+    <label for="descripcion">Descripcion</label>
+    <input type="text" th:field="*{descripcion}" id="descripcion">
+    
+    <label for="texto">Texto mostrado/leído</label>
+    <input type="text" th:field="*{texto}" id="texto">
+    
+    <label for="tiempoDuracion">Duración en min</label>
+    <input type="number" th:field="*{tiempoDuracion}" id="tiempoDuracion" placeholder="tiempo en minutos" min="0">
+            
+     <input type="submit" value="Registrar actividad">   
+</form>
+
+</body>
+</html>
