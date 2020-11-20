@@ -12,6 +12,7 @@ import com.cenfotec.workshop.domain.Workshop;
 
 
 public interface WorkshopRepository extends JpaRepository<Workshop, Long> {
+	
 	public List<Workshop> findByNombreContaining(String word);	
 	
 	public List<Workshop> findByCategoriaId(Long id);	

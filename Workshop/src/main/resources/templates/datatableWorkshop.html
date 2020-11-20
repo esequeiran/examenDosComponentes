@@ -1,34 +1,36 @@
-<!doctype html>
-<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8"></meta>
-<meta http-equiv="Content-Type" content="text/html"></meta>
-<title>Workshop</title>
-<script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script> 
+<meta charset="ISO-8859-1">
+<title>Workshop datatable</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready( function () {
+    $('#tblWorkhops').DataTable();
+} );
+</script>
 </head>
 <body>
-<h1>Lista de workshops</h1>
-	<div th:switch="${workshops}">
-	<h2 th:case="null">No existen workshops registrados</h2>
-	<div th:case="*">
-		<h2>Workshops</h2>
-		<table>
-			<thead>
-				<tr>
+<h2>Workshops</h2>
+<table id="tblWorkhops" class="display">
+    <thead>
+       <tr>
 					<th>Nombre</th>
 					<th>Autor</th>
 					<th>Objetivo</th>
 					<th>Palabras claves</th>
 					<th>Categoria</th>
-					<th>DuraciÃ³n minutos</th>
+					<th>Duración minutos</th>
 					<th>Actividades</th>
 					<th>Agregar actividad</th>
 					<th>Modificar workshop</th>
 					<th>Generar word</th>						
 				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="workshop : ${workshops}">
+    </thead>
+    <tbody>
+     <tr th:each="workshop : ${workshops}">
 					<td th:text="${workshop.nombre}"></td>
 					<td th:text="${workshop.autor}"></td>	
 					<td th:text="${workshop.objetivo}"></td>	
@@ -48,12 +50,8 @@
 					  <td> <a th:href="@{/modificarWorkshop/{id}(id=${workshop.id})}">Modificar</a></td>
 					   <td> <a th:href="@{/generarWord/{id}(id=${workshop.id})}" download>Generar</a></td>
 				</tr>
-			</tbody>
-		</table>
-		 <a href="/">Regresar</a>  
+    </tbody>
+</table>
 
-	</div>	
-		
-	</div>
 </body>
 </html>

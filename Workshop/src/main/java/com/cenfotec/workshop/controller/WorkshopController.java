@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.cenfotec.workshop.domain.Actividad;
 import com.cenfotec.workshop.domain.Categoria;
@@ -32,6 +34,7 @@ import com.cenfotec.workshop.domain.Workshop;
 import com.cenfotec.workshop.service.ActividadService;
 import com.cenfotec.workshop.service.CategoriaService;
 import com.cenfotec.workshop.service.WorkshopService;
+import com.google.gson.Gson;
 
 
 
@@ -211,7 +214,13 @@ public class WorkshopController {
 	    subTitle.setAlignment(ParagraphAlignment.CENTER);
 	    
 	    XWPFRun subTitleRun = subTitle.createRun();
-	    subTitleRun.setText("Tiempo de duración "+workshop.getTiempoDuracion());
+	    String time = "";
+	    if(workshop.getTiempoDuracion() == null) {
+	    	time = "no hay actividades registradas";
+	    }else {
+	    	time = workshop.getTiempoDuracion().toString();
+	    }
+	    subTitleRun.setText("Tiempo de duración: "+time+" minutos");
 	    subTitleRun.setColor("0000CC");
 	    subTitleRun.setFontFamily("Courier");
 	    subTitleRun.setFontSize(16);
@@ -258,5 +267,51 @@ public class WorkshopController {
 		  		document.write(response.getOutputStream());	   
 	}
 	
+	@RequestMapping(value="/datatableWorkshop", method=  RequestMethod.GET)
+	public String listarWorkshopDataTable(Model model) {
+		model.addAttribute("workshops",workshopService.getAll());
+		/*
+		String url = "http://localhost:8080/api/taller";
+		
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.getForObject(url, String.class);
+		System.out.println(result);
+		*/
+		return "datatableWorkshop";
+	}
 	
+	/*
+	
+	@RequestMapping(value="/datatableWorkshop/json", method=  RequestMethod.GET)
+	@ResponseBody
+	public void jsonWorkshopDataTable(HttpServletRequest request, HttpServletResponse response,Model model) throws IOException {
+		
+		
+		String jsonString = new Gson().toJson(list);
+		model.addAttribute("workshops",list);
+		
+		 XWPFDocument document = new XWPFDocument();
+		    //Nombre del documento, título
+		    XWPFParagraph title = document.createParagraph();
+		    title.setAlignment(ParagraphAlignment.CENTER);
+		    
+		    XWPFRun titleRun = title.createRun();
+		    titleRun.setText("Lista de workshops en formato Json");
+		    titleRun.setColor("000033");
+		    titleRun.setBold(true);
+		    titleRun.setFontFamily("Courier");
+		    titleRun.setFontSize(20);
+		
+		    XWPFParagraph para1 = document.createParagraph();
+		    para1.setAlignment(ParagraphAlignment.BOTH);	    
+		    XWPFRun para1Run = para1.createRun();
+		    
+		    para1Run.setText(jsonString+"\n");
+		    para1Run.setColor("004C99");
+		    
+		    response.setHeader("Content-disposition", "attachment; filename=workshopJson.docx");
+	  		document.write(response.getOutputStream());	  
+	  		
+	}
+	*/
 }
